@@ -11,16 +11,15 @@ def main():
         if query in ['quit', 'exit', 'q']:
             break
 
-        results = agent.search_reports(query, top_k=1)
-        for report, score in results:
-            print(f"Title: {report.title}")
-            print(f"Description: {report.description}")
-            print(f"Metrics: {report.metrics}")
-            print(f"Dimensions: {report.dimensions}")
-            print(f"Score: {score}")
-            print()
+        agent.process_query(query, top_k=1)
 
-        print("\n Enter any of the following commands: 'quit', 'exit', 'q' to exit")
+        user_satisfaction_response = input("\n Are you satisfied with the results? (y/n): ").strip()
+        if user_satisfaction_response.lower() == 'n':
+            agent.set_probing_state()
+    
+        agent.process_probing()
+
+        print("\n Enter any of the following commands or enter a new search query: 'quit', 'exit', 'q' to exit")
 
 if __name__ == "__main__":
     main()
