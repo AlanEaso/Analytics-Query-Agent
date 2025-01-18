@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  csm_agent:
+    build: .
+    volumes:
+      - ./chroma_storage:/app/chroma_storage
+    ports:
+      - "8000:8000"  # If you plan to add API endpoints later
+    environment:
+      - PYTHONUNBUFFERED=1
+    stdin_open: true  # Keep STDIN open for interactive CLI
+    tty: true        # Allocate a pseudo-TTY
