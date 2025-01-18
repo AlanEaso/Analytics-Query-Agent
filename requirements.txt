@@ -1,2 +1,5 @@
 chromadb==0.6.3 
 sentence-transformers==3.3.1
+openai
+tiktoken
+groq
