@@ -7,6 +7,8 @@ services:
       - ./chroma_storage:/app/chroma_storage
     ports:
       - "8000:8000"  # If you plan to add API endpoints later
+    env_file:
+      - .env
     environment:
       - PYTHONUNBUFFERED=1
     stdin_open: true  # Keep STDIN open for interactive CLI
