@@ -66,8 +66,8 @@ class ProbingAgent:
         user_satisfaction_input = input("\n Are you satisfied with the results? ").strip()
         self.csm_agent.handle_initial_satisfaction(memory= self.memory,user_satisfaction_input=user_satisfaction_input)
         if self.csm_agent.agent_status == AgentState.COMPLETE:
-                print("\nGreat! Have a nice day!")
-                return True
+            print("\nGreat! Have a nice day!")
+            return True
     
     def _probing_system_prompt(self):
         return f"""
