@@ -1,6 +1,7 @@
 import os
 import sys
 from agent.probing_agent import ProbingAgent
+from agent.agent_state import AgentState
 from agent.memory import ConversationMemory
 from llm.openai_client import OpenAiClient
 from llm.openai_prompt import OpenAIPrompt
@@ -12,14 +13,6 @@ sys.path.append(parent_dir)
 from knowledge_base.reports import Report
 from enum import Enum
 
-class AgentState(Enum):
-    INITIALIZING = "initializing"
-    SEARCHING = "searching"
-    PROBING = "probing"
-    ANALYZING = "analyzing"
-    ESCALATING = "escalating"
-    COMPLETE = "complete"
-
 class CSMAnalytsgent:
     def __init__(self):
         self.agent_status = AgentState.INITIALIZING
@@ -27,17 +20,20 @@ class CSMAnalytsgent:
         self.query = None
         self.openai_client = OpenAiClient().client()
 
-    def process_query(self, memory: ConversationMemory, query: str, top_k: int = 3):
+    def process_query(self, memory: ConversationMemory, query: str, top_k: int = 3, agent_query: bool = False):
         self.agent_status = AgentState.SEARCHING
-        self.query = query
-        memory.add_content(role='user', content=query)
-        return self.search_reports(top_k=top_k)
+        if agent_query:
+            memory.add_content(role='assistant', content=query)
+        else:
+            memory.add_content(role='user', content=query)
+            self.query = query
+        return self.search_reports(query=query, top_k=top_k)
 
     def set_probing_state(self):
         self.agent_status = AgentState.PROBING
 
-    def search_reports(self, top_k: int = 3):
-        results = self.knowledge_base.search_reports(self.query, top_k)
+    def search_reports(self, query: str, top_k: int = 3):
+        results = self.knowledge_base.search_reports(query, top_k)
         for report, score in results:
             print(f"Title: {report.title}")
             print(f"Description: {report.description}")
@@ -53,16 +49,25 @@ class CSMAnalytsgent:
             return
         
         print("Probing...")
-        # return 
-        # probing_agent = ProbingAgent(memory=memory, csm_agent=self)
-        # max_probes = 5
-        # probe_count = 0
-        # while probe_count < max_probes:
-        #     probing_agent.probe_user(probe_count= probe_count+1)
-        #     probe_count += 1
+        probing_agent = ProbingAgent(memory=memory, csm_agent=self)
+        max_probes = 5
+        probe_count = 0
+        user_satisfied = False
+        # probing_agent.probe_user(probe_count= probe_count+1)
+        while probe_count < max_probes:
+            probe_user_response = probing_agent.probe_user(probe_count= probe_count+1)
+            if probe_user_response == "satisifed":
+                user_satisfied = True
+                break
+            probe_count += 1
+
+        if not user_satisfied:
+            self.agent_status = AgentState.ESCALATING
+            # Save the entire chat history to a postgres db or mongo db here
+            print("One of our team members will reach out to you shortly.")
 
     def handle_initial_satisfaction(self, user_satisfaction_input: str, memory: ConversationMemory):
-        memory.add_content(role='agent', content="Are you satisfied with the results?")
+        memory.add_content(role='assistant', content="Are you satisfied with the results?")
         memory.add_content(role='user', content=user_satisfaction_input)
         messages = [
         {

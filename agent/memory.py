@@ -4,10 +4,10 @@ class ConversationMemory:
     def __init__(self):
         self.query_history = []
 
-    def add_content(self, role: str, query: str):
+    def add_content(self, role: str, content: str):
         self.query_history.append({
             "role": role,
-            "query": query
+            "content": content
         })
 
     def get_contents(self) -> List[str]:
