@@ -22,14 +22,19 @@ def main():
             if query in ['quit', 'exit', 'q']:
                 break
 
-            agent.process_query(memory= memory, query=query, top_k=1)
+            reports = agent.process_query(memory= memory, query=query, top_k=1)
+
+            if len(reports) == 0:
+                print("No reports found. This feature is under development. Please try again.")
+                # Execute external api flow
+                continue
 
             user_satisfaction_input = input("\n Are you satisfied with the results? ").strip()
             agent.handle_initial_satisfaction(memory= memory,user_satisfaction_input=user_satisfaction_input)
 
             if agent.agent_status == AgentState.COMPLETE:
                 print("\nGreat! Have a nice day!")
-                break
+                continue
 
             agent.process_probing(memory=memory)
 

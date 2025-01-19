@@ -30,21 +30,25 @@ class CSMAnalytsgent:
             memory.add_content(role='user', content=query)
             self.query = query
         reports =  self.search_reports(query=query, top_k=top_k)
+        valid_reports = []
         for report, _score in reports:
-            memory.add_suggested_report({"title": report.title, "description": report.description})
+            if _score > 0.5:
+                valid_reports.append(report)
+                memory.add_suggested_report({"title": report.title, "description": report.description})
+                self._print_report(report)
 
-        return reports
+        return valid_reports
 
     def set_probing_state(self):
         self.agent_status = AgentState.PROBING
 
+    def _print_report(self, report):
+        print(f"Title: {report.title}")
+        print(f"Description: {report.description}")
+        print("\n")
+
     def search_reports(self, query: str, top_k: int = 3):
         results = self.knowledge_base.search_reports(query, top_k)
-        for report, score in results:
-            print(f"Title: {report.title}")
-            print(f"Description: {report.description}")
-            print(f"Score: {score}")
-            print()
 
         return results
 
