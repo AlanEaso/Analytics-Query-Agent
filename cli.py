@@ -40,7 +40,8 @@ def main():
 
             print("\n Enter any of the following commands or enter a new search query: 'quit', 'exit', 'q' to exit")
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print(f"Error type: {type(e).__name__}")
+        print(f"Error message: {str(e)}")
         raise e
     finally:
         db.close()
