@@ -6,7 +6,6 @@ from loguru import logger
 import uuid
 
 logger.add("logs/csm_analytics_{time}.log", rotation="500 MB")
-# edff5f8b-8547-450e-b5fa-502c5247075c
 def main():
     db = MongoDB()
     conversation_id = str(uuid.uuid4())
