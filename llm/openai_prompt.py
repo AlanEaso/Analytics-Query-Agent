@@ -29,8 +29,7 @@ class OpenAIPrompt:
             history.extend(addable_history_messages)
             max_tokens -= token_count
         
-        # If max token still greater than 0, we can add examples also in a similar way
-
+        history.reverse()
         result += history
         self._messages_for_openai = result
         self._num_prompt_tokens = self.MAX_TOKENS - max_tokens
