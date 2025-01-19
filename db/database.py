@@ -59,3 +59,6 @@ class MongoDB:
         
         self.db.llm_logs.insert_one(log_entry)
         # logger.info(f"Logged LLM interaction for {conversation_type}")
+
+    def get_all_escalation_tickets(self):
+        return list(self.db.escalation_tickets.find())
