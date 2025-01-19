@@ -2,8 +2,8 @@ import os
 import sys
 from agent.probing_agent import ProbingAgent
 from agent.memory import ConversationMemory
-import openai
 from llm.openai_client import OpenAiClient
+from llm.openai_prompt import OpenAIPrompt
 import json
 
 parent_dir = os.path.dirname(os.getcwd())
@@ -30,7 +30,7 @@ class CSMAnalytsgent:
     def process_query(self, memory: ConversationMemory, query: str, top_k: int = 3):
         self.agent_status = AgentState.SEARCHING
         self.query = query
-        memory.add_content(role='user', query=query)
+        memory.add_content(role='user', content=query)
         return self.search_reports(top_k=top_k)
 
     def set_probing_state(self):
@@ -48,32 +48,35 @@ class CSMAnalytsgent:
 
         return results
 
-    def process_probing(self):
+    def process_probing(self, memory: ConversationMemory):
         if not self.agent_status == AgentState.PROBING:
             return
         
         print("Probing...")
-        # probing_agent = ProbingAgent()
-        # probing_agent.probe_user("")
+        # return 
+        # probing_agent = ProbingAgent(memory=memory, csm_agent=self)
+        # max_probes = 5
+        # probe_count = 0
+        # while probe_count < max_probes:
+        #     probing_agent.probe_user(probe_count= probe_count+1)
+        #     probe_count += 1
 
-    def handle_initial_satisfaction(self, user_satisfaction_query: str):
-        messages = [{
-            "role": "system",
-            "content": """ You are an Analytics Query Agent. Based on the knowledge you have, you provided and anwer
-             to the user's query. The user is now asked if they are satisfied with the results. If the user is satisfied,
-             return the response in the format: {user_satisfaction_response: "yes"}. If the user is not satisfied, return
-             the response in the following json format: {user_satisfaction_response: "no"} . Do not deviate from the response format.
-             The values should always be "yes" or "no" """
-        },
+    def handle_initial_satisfaction(self, user_satisfaction_input: str, memory: ConversationMemory):
+        memory.add_content(role='agent', content="Are you satisfied with the results?")
+        memory.add_content(role='user', content=user_satisfaction_input)
+        messages = [
         {
             "role": "user",
-            "content": user_satisfaction_query
+            "content": user_satisfaction_input
         }]
 
+        openai_prompt = OpenAIPrompt(system_prompt=self._user_satisfaction_system_prompt(), messages=messages, openai_model=os.getenv("OPENAI_MODEL"))
+        openai_prompt_messages = openai_prompt.to_openai_format()
+
         response = self.openai_client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
-            messages=messages,
-            max_completion_tokens=1024,
+            model=os.getenv("OPENAI_MODEL"),
+            messages=openai_prompt_messages["messages"],
+            max_completion_tokens=openai_prompt_messages["max_tokens"],
             temperature=0.5,
             response_format={"type": "json_object"} 
         )
@@ -84,4 +87,11 @@ class CSMAnalytsgent:
         else:
             self.agent_status = AgentState.COMPLETE
         return json_response
+    
+    def _user_satisfaction_system_prompt(self):
+        return """ You are an Analytics Query Agent. Based on the knowledge you have, you provided and answer
+                to the user's query. The user is now asked if they are satisfied with the results. If the user is satisfied,
+                return the response in the format: {user_satisfaction_response: "yes"}. If the user is not satisfied, return
+                the response in the following json format: {user_satisfaction_response: "no"} . Do not deviate from the response format.
+                The values should always be "yes" or "no" """
         
