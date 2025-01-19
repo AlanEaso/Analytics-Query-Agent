@@ -56,7 +56,8 @@ class AnalyzeAdditionalQueryAgent:
         has enough information to provide a satisfactory answer. A summary of your knowledge base is:
         {Prompt().kb_summary()}. The agent has in depth details of the summary. So far these are the additional information gathered from the user's responses to the probing questions: "{self.probing_agent.query_details}".
         Evaluate the current responses and check all the addition information provided by the user can be targeted to the knowledge base.
-        If the summary provided above has atleast 2 values from the additional information provided by the user, then the agent has enough information to provide a satisfactory answer.
+        If the summary provided above has atleast 2 RELEVANT values from the additional information provided by the user, then the agent has enough information to provide a satisfactory answer.
+        If the user history is completely different from the knowledge base it's not satisfactory.
 
         Respond in a json format in the following way: {{"satisfactory": "1/0" , "relevance": "1/0"}}.
         The "satisfactory value" should be 1 if the agent has enough information to provide a satisfactory answer and 0
