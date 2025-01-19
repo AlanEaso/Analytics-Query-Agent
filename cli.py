@@ -1,15 +1,23 @@
 from agent.csm_analytics_agent import CSMAnalytsgent
 from agent.agent_state import AgentState
 from agent.memory import ConversationMemory
+from db.database import MongoDB
+from loguru import logger
+import uuid
 
+logger.add("logs/csm_analytics_{time}.log", rotation="500 MB")
+# edff5f8b-8547-450e-b5fa-502c5247075c
 def main():
+    db = MongoDB()
+    conversation_id = str(uuid.uuid4())
+    print("Conversation ID: ", conversation_id)
     print("CSM Analytics Query Agent")
     print("------------------------")
     print("Enter your analytics report request (or 'quit' to exit):")
     try:
         while True:
-            agent = CSMAnalytsgent()
-            memory = ConversationMemory()
+            agent = CSMAnalytsgent(db=db)
+            memory = ConversationMemory(conversation_id=conversation_id)
             query = input("\nQuery: ").strip()
             if query in ['quit', 'exit', 'q']:
                 break
@@ -29,6 +37,9 @@ def main():
     except Exception as e:
         print(f"An error occurred: {e}")
         raise e
+    finally:
+        db.close()
+        print("Closed MongoDB connection")
 
 if __name__ == "__main__":
     main()

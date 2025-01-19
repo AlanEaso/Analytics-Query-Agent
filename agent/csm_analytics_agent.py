@@ -14,7 +14,8 @@ from knowledge_base.reports import Report
 from enum import Enum
 
 class CSMAnalytsgent:
-    def __init__(self):
+    def __init__(self, db):
+        self.db = db
         self.agent_status = AgentState.INITIALIZING
         self.knowledge_base = Report()
         self.query = None
@@ -37,8 +38,6 @@ class CSMAnalytsgent:
         for report, score in results:
             print(f"Title: {report.title}")
             print(f"Description: {report.description}")
-            print(f"Metrics: {report.metrics}")
-            print(f"Dimensions: {report.dimensions}")
             print(f"Score: {score}")
             print()
 
@@ -49,7 +48,7 @@ class CSMAnalytsgent:
             return
         
         print("Probing...")
-        probing_agent = ProbingAgent(memory=memory, csm_agent=self)
+        probing_agent = ProbingAgent(db=self.db, memory=memory, csm_agent=self)
         max_probes = 5
         probe_count = 0
         user_satisfied = False
@@ -91,6 +90,10 @@ class CSMAnalytsgent:
             self.agent_status = AgentState.PROBING
         else:
             self.agent_status = AgentState.COMPLETE
+
+        self.db.log_llm_interaction(conversation_id= memory.conversation_id, prompt=openai_prompt_messages["messages"],
+                                    response=json_response, model=os.getenv("OPENAI_MODEL"),
+                                    tokens_used=openai_prompt_messages["num_prompt_tokens"], conversation_type="user_satisfaction")
         return json_response
     
     def _user_satisfaction_system_prompt(self):

@@ -8,11 +8,12 @@ import os
 import json
 
 class ProbingAgent:
-    def __init__(self, memory: ConversationMemory, csm_agent: None):
+    def __init__(self, db, memory: ConversationMemory, csm_agent: None):
         self.csm_agent = csm_agent
         self.memory = memory
         self.query_details = []
         self.modified_query = None
+        self.db = db
         self.openai_client = OpenAiClient().client()
 
     def probe_user(self, probe_count: int):
@@ -37,7 +38,7 @@ class ProbingAgent:
     
     def _analyze_all_additional_query_inputs(self):
         # Analyze all the user's responses to the probing questions to determine if the agent has enough information to provide a satisfactory answer.
-        return AnalyzeAdditionalQueryAgent(memory=self.memory, probing_agent=self).analyze()
+        return AnalyzeAdditionalQueryAgent(db=self.db, memory=self.memory, probing_agent=self).analyze()
     
     def _get_user_probing_response(self):
         user_input = input("\nKindly Enter your response : \n").strip()
@@ -57,10 +58,13 @@ class ProbingAgent:
         )
 
         json_response = json.loads(response.choices[0].message.content)
+        self.db.log_llm_interaction(conversation_id= self.memory.conversation_id, prompt=openai_prompt_messages["messages"],
+                                    response=json_response, model=os.getenv("OPENAI_MODEL"),
+                                    tokens_used=openai_prompt_messages["num_prompt_tokens"], conversation_type="user_probing")
         return json_response
     
     def _hanlde_satisfactory_response(self):
-        self.modified_query = AnalyzeAdditionalQueryAgent(memory=self.memory, probing_agent=self).modify_query()
+        self.modified_query = AnalyzeAdditionalQueryAgent(db=self.db, memory=self.memory, probing_agent=self).modify_query()
         self.csm_agent.process_query(memory=self.memory, query=self.modified_query, top_k=1, agent_query=True)
 
         user_satisfaction_input = input("\n Are you satisfied with the results? ").strip()

@@ -6,10 +6,11 @@ import json
 from agent.prompts import Prompt
 
 class AnalyzeAdditionalQueryAgent:
-    def __init__(self, memory: ConversationMemory, probing_agent: None):
+    def __init__(self, db: None, memory: ConversationMemory, probing_agent: None):
         self.memory = memory
         self.openai_client = OpenAiClient().client()
         self.probing_agent = probing_agent
+        self.db = db
 
     def analyze(self):
         # Analyze all the user's responses to the probing questions to determine if the agent has enough information to provide a satisfactory answer.
@@ -24,6 +25,9 @@ class AnalyzeAdditionalQueryAgent:
         )
 
         json_response = json.loads(response.choices[0].message.content)
+        self.db.log_llm_interaction(conversation_id= self.memory.conversation_id, prompt=openai_prompt_messages["messages"],
+                                    response=json_response, model=os.getenv("OPENAI_MODEL"),
+                                    tokens_used=openai_prompt_messages["num_prompt_tokens"], conversation_type="user_probing")
         return json_response['satisfactory'] == '1'
     
     def modify_query(self):
@@ -38,26 +42,26 @@ class AnalyzeAdditionalQueryAgent:
         )
 
         json_response = json.loads(response.choices[0].message.content)
+        self.db.log_llm_interaction(conversation_id= self.memory.conversation_id, prompt=openai_prompt_messages["messages"],
+                                    response=json_response, model=os.getenv("OPENAI_MODEL"),
+                                    tokens_used=openai_prompt_messages["num_prompt_tokens"], conversation_type="user_probing")
         return json_response['modified_query']
         
     
     def _analyze_system_prompt(self):
         return f"""
-        You are an Analytics Query Assistant. Based on the knowledge you have, you provided and answer
+        You are an Analytics Query Assistant. Based on the knowledge you have, you provided an answer
         to the user's query. The user is not satisified with results you provided. You have asked probing questions to the user
         to get more information. You need to analyze the user's responses to the probing questions to determine if the agent
         has enough information to provide a satisfactory answer. A summary of your knowledge base is:
-        {Prompt().kb_summary()}
+        {Prompt().kb_summary()}. The agent has in depth details of the summary. So far these are the additional information gathered from the user's responses to the probing questions: "{self.probing_agent.query_details}".
+        Evaluate the current responses and check all the addition information provided by the user can be targeted to the knowledge base.
+        If the summary provided above has atleast 2 values from the additional information provided by the user, then the agent has enough information to provide a satisfactory answer.
 
-        if it's the first time the user is responding to the probing questions, try to list the core categories of the knowledge base
-        and ask question related to the category and deppeer to the categrory.
-        Make sure you stick to the context provided below which is the conversation between you (the agent) and the user. Always
-        stay contextually relevant. Respond in a json format in the following way: {{"satisfactory": "1/0" , "relevance": "1/0"}}.
+        Respond in a json format in the following way: {{"satisfactory": "1/0" , "relevance": "1/0"}}.
         The "satisfactory value" should be 1 if the agent has enough information to provide a satisfactory answer and 0
         if the agent does not have enough information to provide a satisfactory answer. The value of "relevance" should be 1
         if the user's responses are relevant to the probing questions and 0 if the user's responses are not relevant to the probing questions.
-        If there is atleast 3 values in the summary that relates to user's current and previous responses,
-        consider it satisfactory.
         Stick to the response format. 
         """
     
