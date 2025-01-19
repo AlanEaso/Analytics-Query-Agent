@@ -12,6 +12,26 @@ class AnalyzeAdditionalQueryAgent:
         self.probing_agent = probing_agent
         self.db = db
 
+    def analyze_relevence(self, user_input: str, question: str):
+        openai_prompt = OpenAIPrompt(system_prompt=Prompt().analyze_relevance_prompt(user_input, question),
+                                     messages=[], openai_model=os.getenv("OPENAI_MODEL"))
+        openai_prompt_messages = openai_prompt.to_openai_format()
+        response = self.openai_client.chat.completions.create(
+            model=os.getenv("OPENAI_MODEL"),
+            messages=openai_prompt_messages["messages"],
+            max_completion_tokens=openai_prompt_messages["max_tokens"],
+            temperature=0.5,
+            response_format={"type": "json_object"} 
+        )
+
+        json_response = json.loads(response.choices[0].message.content)
+        self.db.log_llm_interaction(conversation_id= self.memory.conversation_id, prompt=openai_prompt_messages["messages"],
+                                    response=json_response, model=os.getenv("OPENAI_MODEL"),
+                                    tokens_used=openai_prompt_messages["num_prompt_tokens"], conversation_type="user_probing")
+
+        return json_response['relevance'], json_response['relevant_query']
+
+
     def analyze(self):
         # Analyze all the user's responses to the probing questions to determine if the agent has enough information to provide a satisfactory answer.
         openai_prompt = OpenAIPrompt(system_prompt=self._analyze_system_prompt(), messages=self.memory.get_contents(), openai_model=os.getenv("OPENAI_MODEL"))

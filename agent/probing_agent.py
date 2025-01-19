@@ -23,7 +23,7 @@ class ProbingAgent:
         self.memory.add_content(role='assistant', content=probing_question["question"])
 
         # Get the user's response to the probing question
-        self._get_user_probing_response()
+        self._get_user_probing_response(probing_question=probing_question['question'])
 
 
         # Check if minimum probe count has reached
@@ -40,10 +40,15 @@ class ProbingAgent:
         # Analyze all the user's responses to the probing questions to determine if the agent has enough information to provide a satisfactory answer.
         return AnalyzeAdditionalQueryAgent(db=self.db, memory=self.memory, probing_agent=self).analyze()
     
-    def _get_user_probing_response(self):
+    def _get_user_probing_response(self, probing_question):
         user_input = input("\nKindly Enter your response : \n").strip()
+        relevence , relevent_query = AnalyzeAdditionalQueryAgent(db=self.db, memory=self.memory,
+                                                                 probing_agent=self).analyze_relevence(user_input=user_input,
+                                                                                                       question= probing_question)
+        if relevence == '1':
+            self.query_details.append(relevent_query)
+        
         self.memory.add_content(role='user', content=user_input)
-        self.query_details.append(user_input)
     
     def _generate_probing_question(self):
         # Generate a probing question based on the user's query and the agent's response
