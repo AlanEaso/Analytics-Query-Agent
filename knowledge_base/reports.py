@@ -1,4 +1,3 @@
-from sentence_transformers import SentenceTransformer
 import chromadb
 from chromadb.utils import embedding_functions
 import json
@@ -11,8 +10,6 @@ class AnalyticsReport:
     id: str
     title: str
     description: str
-    metrics: List[str]
-    dimensions: List[str]
 
 class Report:
     def __init__(self, collection_name: str = 'analytics_reports'):
@@ -45,9 +42,7 @@ class Report:
             documents.append(f"{report['title']} {report['description']}")
             metadatas.append({
                 "title": report["title"],
-                "description": report["description"],
-                "metrics": json.dumps(report["metrics"]), 
-                "dimensions": json.dumps(report["dimensions"])
+                "description": report["description"]
             })
 
         self.collection.add(
@@ -70,9 +65,7 @@ class Report:
             report = AnalyticsReport(
                 id=results['ids'][0][idx],
                 title=metadata["title"],
-                description=metadata["description"],
-                metrics=json.loads(metadata["metrics"]),
-                dimensions=json.loads(metadata["dimensions"])
+                description=metadata["description"]
             )
             # Convert distance to similarity score (Chroma returns distances)
             similarity = 1 - distance
