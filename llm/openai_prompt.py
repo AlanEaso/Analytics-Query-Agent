@@ -63,4 +63,5 @@ class OpenAIPrompt:
         return {
             "messages": messages,
             "max_tokens": self.MAX_TOKENS,
+            "num_prompt_tokens": num_prompt_token
         }
