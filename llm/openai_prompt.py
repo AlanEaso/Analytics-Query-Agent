@@ -33,7 +33,6 @@ class OpenAIPrompt:
         result += history
         self._messages_for_openai = result
         self._num_prompt_tokens = self.MAX_TOKENS - max_tokens
-        print(f"TOKENS LEFT: {max_tokens}")
 
         return self._messages_for_openai, self._num_prompt_tokens
 
