@@ -49,12 +49,14 @@ class AnalyzeAdditionalQueryAgent:
         has enough information to provide a satisfactory answer. A summary of your knowledge base is:
         {Prompt().kb_summary()}
 
+        if it's the first time the user is responding to the probing questions, try to list the core categories of the knowledge base
+        and ask question related to the category and deppeer to the categrory.
         Make sure you stick to the context provided below which is the conversation between you (the agent) and the user. Always
         stay contextually relevant. Respond in a json format in the following way: {{"satisfactory": "1/0" , "relevance": "1/0"}}.
         The "satisfactory value" should be 1 if the agent has enough information to provide a satisfactory answer and 0
         if the agent does not have enough information to provide a satisfactory answer. The value of "relevance" should be 1
         if the user's responses are relevant to the probing questions and 0 if the user's responses are not relevant to the probing questions.
-        If there is atleast 3 values related to the ones listed in the summary,
+        If there is atleast 3 values in the summary that relates to user's current and previous responses,
         consider it satisfactory.
         Stick to the response format. 
         """
