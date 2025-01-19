@@ -1,423 +1,285 @@
 [ 
   {
     "title": "Win/Loss Ratio Across Sales Territories (North America)",
-    "description": "Analysis of sales performance metrics focusing on win/loss ratios in North American markets, highlighting key success factors and areas for improvement",
-    "metrics": ["win_rate", "loss_rate", "total_opportunities", "conversion_rate"],
-    "dimensions": ["territory", "quarter", "sales_team", "product_line"]
+    "description": "Analysis of sales performance metrics focusing on win/loss ratios in North American markets, highlighting key success factors and areas for improvement"
   },
   {
     "title": "Win/Loss Ratio by Industry (Healthcare)",
-    "description": "Detailed breakdown of win/loss performance in healthcare sector, including hospital systems, clinics, and medical device companies",
-    "metrics": ["win_rate", "loss_rate", "deal_size", "sales_cycle_length"],
-    "dimensions": ["industry_segment", "territory", "product_category"]
+    "description": "Detailed breakdown of win/loss performance in healthcare sector, including hospital systems, clinics, and medical device companies"
   },
   {
     "title": "Enterprise Win/Loss Analysis (EMEA)",
-    "description": "Focused analysis of enterprise-level deals across Europe, Middle East, and Africa, with emphasis on competitive displacement rates",
-    "metrics": ["win_rate", "loss_rate", "competitive_displacement", "deal_value"],
-    "dimensions": ["country", "enterprise_segment", "competitor"]
+    "description": "Focused analysis of enterprise-level deals across Europe, Middle East, and Africa, with emphasis on competitive displacement rates"
   },
   {
     "title": "SMB Market Win/Loss Trends (LATAM)",
-    "description": "Tracking of win/loss patterns in small and medium business segments across Latin American markets",
-    "metrics": ["win_rate", "loss_rate", "average_deal_size", "market_penetration"],
-    "dimensions": ["country", "business_size", "industry"]
+    "description": "Tracking of win/loss patterns in small and medium business segments across Latin American markets"
   },
   {
     "title": "Win/Loss Analysis - Manufacturing Sector",
-    "description": "Specialized report focusing on manufacturing industry clients, including automotive, aerospace, and industrial equipment",
-    "metrics": ["win_rate", "loss_rate", "contract_value", "implementation_time"],
-    "dimensions": ["manufacturing_type", "region", "product_line"]
+    "description": "Specialized report focusing on manufacturing industry clients, including automotive, aerospace, and industrial equipment"
   },
   {
     "title": "Technology Sector Win/Loss Performance",
-    "description": "Analysis of sales outcomes in the technology sector, including software companies, hardware manufacturers, and IT services",
-    "metrics": ["win_rate", "loss_rate", "upsell_rate", "renewal_rate"],
-    "dimensions": ["tech_segment", "deal_size", "solution_type"]
+    "description": "Analysis of sales outcomes in the technology sector, including software companies, hardware manufacturers, and IT services"
   },
   {
     "title": "Financial Services Win/Loss Metrics",
-    "description": "Comprehensive view of sales performance in banking, insurance, and investment services sectors",
-    "metrics": ["win_rate", "loss_rate", "compliance_rate", "decision_time"],
-    "dimensions": ["financial_sector", "institution_size", "product_type"]
+    "description": "Comprehensive view of sales performance in banking, insurance, and investment services sectors"
   },
   {
     "title": "Win/Loss Analysis - Government Sector",
-    "description": "Detailed tracking of public sector sales outcomes, including federal, state, and local government agencies",
-    "metrics": ["win_rate", "loss_rate", "contract_duration", "bid_success_rate"],
-    "dimensions": ["government_level", "department_type", "contract_type"]
+    "description": "Detailed tracking of public sector sales outcomes, including federal, state, and local government agencies"
   },
   {
     "title": "Retail Industry Win/Loss Performance",
-    "description": "Analysis of sales success in retail sector, covering both traditional and e-commerce retailers",
-    "metrics": ["win_rate", "loss_rate", "implementation_success", "adoption_rate"],
-    "dimensions": ["retail_segment", "store_count", "geography"]
+    "description": "Analysis of sales success in retail sector, covering both traditional and e-commerce retailers"
   },
   {
     "title": "Education Sector Win/Loss Metrics",
-    "description": "Tracking of sales performance in education market, including K-12, higher education, and educational technology",
-    "metrics": ["win_rate", "loss_rate", "student_impact", "budget_alignment"],
-    "dimensions": ["education_level", "institution_type", "program_type"]
+    "description": "Tracking of sales performance in education market, including K-12, higher education, and educational technology"
   },
 
   {
     "title": "Digital Marketing CAC Analysis",
-    "description": "Detailed breakdown of customer acquisition costs across digital marketing channels including social media, search, and display advertising",
-    "metrics": ["cac", "roi", "conversion_rate", "customer_lifetime_value"],
-    "dimensions": ["channel", "campaign", "customer_segment"]
+    "description": "Detailed breakdown of customer acquisition costs across digital marketing channels including social media, search, and display advertising"
   },
   {
     "title": "Enterprise Sales CAC Metrics",
-    "description": "Analysis of acquisition costs for enterprise-level customers through direct sales and account-based marketing",
-    "metrics": ["cac", "sales_cycle_length", "deal_size", "retention_rate"],
-    "dimensions": ["industry", "company_size", "territory"]
+    "description": "Analysis of acquisition costs for enterprise-level customers through direct sales and account-based marketing"
   },
   {
     "title": "Partner Channel CAC Performance",
-    "description": "Evaluation of customer acquisition costs through partner and reseller channels",
-    "metrics": ["cac", "partner_commission", "lead_quality", "close_rate"],
-    "dimensions": ["partner_type", "region", "product_line"]
+    "description": "Evaluation of customer acquisition costs through partner and reseller channels"
   },
   {
     "title": "SMB Market CAC Analysis",
-    "description": "Tracking of acquisition costs for small and medium business customers across various marketing channels",
-    "metrics": ["cac", "conversion_rate", "average_revenue", "churn_rate"],
-    "dimensions": ["business_size", "industry", "acquisition_channel"]
+    "description": "Tracking of acquisition costs for small and medium business customers across various marketing channels"
   },
   {
     "title": "E-commerce CAC Breakdown",
-    "description": "Detailed analysis of customer acquisition costs in e-commerce operations across different product categories",
-    "metrics": ["cac", "cart_value", "repeat_purchase_rate", "ad_spend"],
-    "dimensions": ["product_category", "customer_type", "marketing_channel"]
+    "description": "Detailed analysis of customer acquisition costs in e-commerce operations across different product categories"
   },
   {
     "title": "B2B SaaS CAC Metrics",
-    "description": "Comprehensive view of acquisition costs for B2B software-as-a-service customers",
-    "metrics": ["cac", "mrr", "time_to_value", "expansion_revenue"],
-    "dimensions": ["pricing_tier", "industry", "company_size"]
+    "description": "Comprehensive view of acquisition costs for B2B software-as-a-service customers"
   },
   {
     "title": "Regional CAC Comparison",
-    "description": "Comparative analysis of customer acquisition costs across different geographic regions",
-    "metrics": ["cac", "market_penetration", "cost_per_lead", "conversion_rate"],
-    "dimensions": ["region", "market_maturity", "channel_mix"]
+    "description": "Comparative analysis of customer acquisition costs across different geographic regions"
   },
   {
     "title": "Product Line CAC Analysis",
-    "description": "Breakdown of acquisition costs across different product lines and customer segments",
-    "metrics": ["cac", "product_margin", "cross_sell_rate", "customer_satisfaction"],
-    "dimensions": ["product_line", "customer_segment", "sales_channel"]
+    "description": "Breakdown of acquisition costs across different product lines and customer segments"
   },
   {
     "title": "Seasonal CAC Trends",
-    "description": "Analysis of how customer acquisition costs vary across different seasons and promotional periods",
-    "metrics": ["cac", "seasonal_variation", "promotion_impact", "conversion_rate"],
-    "dimensions": ["season", "promotion_type", "customer_type"]
+    "description": "Analysis of how customer acquisition costs vary across different seasons and promotional periods"
   },
   {
     "title": "Mobile App CAC Performance",
-    "description": "Tracking of customer acquisition costs specifically for mobile app users across different platforms",
-    "metrics": ["cac", "app_install_cost", "user_retention", "in_app_revenue"],
-    "dimensions": ["platform", "user_segment", "acquisition_source"]
+    "description": "Tracking of customer acquisition costs specifically for mobile app users across different platforms"
   },
 
   {
     "title": "Enterprise MRR Growth Analysis",
-    "description": "Tracking of monthly recurring revenue trends in enterprise segment, including expansion and churn metrics",
-    "metrics": ["mrr", "net_revenue_retention", "expansion_mrr", "churn_mrr"],
-    "dimensions": ["customer_tier", "industry", "product_usage"]
+    "description": "Tracking of monthly recurring revenue trends in enterprise segment, including expansion and churn metrics"
   },
   {
     "title": "SMB Market MRR Performance",
-    "description": "Analysis of MRR patterns in small and medium business segments across different product tiers",
-    "metrics": ["mrr", "average_revenue_per_account", "upgrade_rate", "downgrade_rate"],
-    "dimensions": ["business_size", "subscription_tier", "industry"]
+    "description": "Analysis of MRR patterns in small and medium business segments across different product tiers"
   },
   {
     "title": "Geographic MRR Distribution",
-    "description": "Breakdown of monthly recurring revenue across different geographic regions and markets",
-    "metrics": ["mrr", "regional_growth", "market_penetration", "currency_impact"],
-    "dimensions": ["region", "country", "market_type"]
+    "description": "Breakdown of monthly recurring revenue across different geographic regions and markets"
   },
   {
     "title": "Product-based MRR Analysis",
-    "description": "Detailed view of MRR performance across different product lines and features",
-    "metrics": ["mrr", "feature_adoption", "usage_patterns", "pricing_efficiency"],
-    "dimensions": ["product_line", "feature_set", "customer_segment"]
+    "description": "Detailed view of MRR performance across different product lines and features"
   },
   {
     "title": "SaaS Platform MRR Metrics",
-    "description": "Comprehensive analysis of MRR for cloud-based software services across different tiers",
-    "metrics": ["mrr", "user_count", "storage_usage", "api_consumption"],
-    "dimensions": ["service_tier", "user_type", "usage_level"]
+    "description": "Comprehensive analysis of MRR for cloud-based software services across different tiers"
   },
   {
     "title": "Industry Vertical MRR Breakdown",
-    "description": "Analysis of MRR patterns across different industry verticals and business types",
-    "metrics": ["mrr", "industry_growth", "vertical_penetration", "solution_adoption"],
-    "dimensions": ["industry", "solution_type", "customer_size"]
+    "description": "Analysis of MRR patterns across different industry verticals and business types"
   },
   {
     "title": "Channel Partner MRR Performance",
-    "description": "Tracking of MRR generated through various partner channels and reseller networks",
-    "metrics": ["mrr", "partner_contribution", "commission_structure", "deal_flow"],
-    "dimensions": ["partner_type", "territory", "product_category"]
+    "description": "Tracking of MRR generated through various partner channels and reseller networks"
   },
   {
     "title": "Customer Segment MRR Analysis",
-    "description": "Detailed breakdown of MRR across different customer segments and usage patterns",
-    "metrics": ["mrr", "segment_growth", "usage_intensity", "customer_satisfaction"],
-    "dimensions": ["customer_segment", "usage_pattern", "product_type"]
+    "description": "Detailed breakdown of MRR across different customer segments and usage patterns"
   },
   {
     "title": "New vs Existing Customer MRR",
-    "description": "Comparative analysis of MRR from new customer acquisition versus existing customer expansion",
-    "metrics": ["mrr", "new_customer_mrr", "expansion_mrr", "churn_impact"],
-    "dimensions": ["customer_age", "acquisition_channel", "product_usage"]
+    "description": "Comparative analysis of MRR from new customer acquisition versus existing customer expansion"
   },
   {
     "title": "Subscription Tier MRR Performance",
-    "description": "Analysis of MRR across different subscription tiers and pricing models",
-    "metrics": ["mrr", "tier_distribution", "upgrade_path", "pricing_efficiency"],
-    "dimensions": ["subscription_tier", "feature_set", "customer_type"]
+    "description": "Analysis of MRR across different subscription tiers and pricing models"
   },
 
   {
     "title": "Digital Marketing Lead Cost Analysis",
-    "description": "Detailed breakdown of lead generation costs across digital marketing channels and campaigns",
-    "metrics": ["cost_per_lead", "lead_quality_score", "conversion_rate", "campaign_roi"],
-    "dimensions": ["channel", "campaign_type", "target_audience"]
+    "description": "Detailed breakdown of lead generation costs across digital marketing channels and campaigns"
   },
   {
     "title": "Content Marketing Lead Generation",
-    "description": "Analysis of lead costs through various content marketing initiatives and formats",
-    "metrics": ["content_cost", "lead_capture_rate", "engagement_metrics", "nurture_success"],
-    "dimensions": ["content_type", "distribution_channel", "audience_segment"]
+    "description": "Analysis of lead costs through various content marketing initiatives and formats"
   },
   {
     "title": "Event-Based Lead Generation Costs",
-    "description": "Tracking of lead acquisition costs through events, webinars, and conferences",
-    "metrics": ["event_cost", "attendee_conversion", "lead_quality", "follow_up_success"],
-    "dimensions": ["event_type", "industry_focus", "geographic_location"]
+    "description": "Tracking of lead acquisition costs through events, webinars, and conferences"
   },
   {
     "title": "Partner Network Lead Costs",
-    "description": "Analysis of lead generation costs through partner networks and referral programs",
-    "metrics": ["partner_commission", "lead_volume", "conversion_quality", "partnership_roi"],
-    "dimensions": ["partner_type", "territory", "lead_source"]
+    "description": "Analysis of lead generation costs through partner networks and referral programs"
   },
   {
     "title": "Social Media Lead Generation",
-    "description": "Detailed tracking of lead costs across different social media platforms and campaigns",
-    "metrics": ["social_ad_cost", "engagement_rate", "lead_quality", "platform_effectiveness"],
-    "dimensions": ["platform", "campaign_type", "target_demographic"]
+    "description": "Detailed tracking of lead costs across different social media platforms and campaigns"
   },
   {
     "title": "Industry-Specific Lead Costs",
-    "description": "Analysis of lead generation costs targeted at specific industry verticals",
-    "metrics": ["vertical_cpl", "industry_penetration", "deal_potential", "nurture_time"],
-    "dimensions": ["industry", "company_size", "solution_focus"]
+    "description": "Analysis of lead generation costs targeted at specific industry verticals"
   },
   {
     "title": "Account-Based Marketing Lead Costs",
-    "description": "Tracking of lead generation costs for targeted ABM campaigns",
-    "metrics": ["abm_investment", "account_engagement", "opportunity_creation", "deal_size"],
-    "dimensions": ["account_tier", "industry", "campaign_approach"]
+    "description": "Tracking of lead generation costs for targeted ABM campaigns"
   },
   {
     "title": "Search Marketing Lead Generation",
-    "description": "Analysis of lead costs through paid search and SEO initiatives",
-    "metrics": ["search_cost", "keyword_performance", "organic_ratio", "quality_score"],
-    "dimensions": ["search_type", "keyword_group", "geographic_target"]
+    "description": "Analysis of lead costs through paid search and SEO initiatives"
   },
   {
     "title": "Email Marketing Lead Costs",
-    "description": "Breakdown of lead generation costs through email marketing campaigns",
-    "metrics": ["email_campaign_cost", "open_rate", "click_through", "conversion_rate"],
-    "dimensions": ["campaign_type", "audience_segment", "content_theme"]
+    "description": "Breakdown of lead generation costs through email marketing campaigns"
   },
   {
     "title": "Multi-Channel Lead Cost Analysis",
-    "description": "Comprehensive analysis of lead costs across integrated marketing channels",
-    "metrics": ["channel_cost", "attribution_weight", "cross_channel_impact", "overall_cpl"],
-    "dimensions": ["channel_mix", "campaign_integration", "audience_type"]
+    "description": "Comprehensive analysis of lead costs across integrated marketing channels"
   },
 
   {
     "title": "Core Feature Adoption Analysis",
-    "description": "Tracking of adoption rates for core product features across user segments",
-    "metrics": ["adoption_rate", "usage_frequency", "user_satisfaction", "feature_stickiness"],
-    "dimensions": ["feature_type", "user_segment", "time_since_launch"]
+    "description": "Tracking of adoption rates for core product features across user segments"
   },
   {
     "title": "New Feature Rollout Performance",
-    "description": "Analysis of adoption metrics for newly released features and capabilities",
-    "metrics": ["initial_adoption", "growth_rate", "user_feedback", "technical_issues"],
-    "dimensions": ["feature_category", "user_type", "release_phase"]
+    "description": "Analysis of adoption metrics for newly released features and capabilities"
   },
   {
     "title": "Enterprise Feature Utilization",
-    "description": "Detailed tracking of feature adoption in enterprise customer segment",
-    "metrics": ["adoption_rate", "team_usage", "integration_success", "roi_impact"],
-    "dimensions": ["company_size", "industry", "feature_complexity"]
+    "description": "Detailed tracking of feature adoption in enterprise customer segment"
   },
   {
     "title": "Mobile App Feature Adoption",
-    "description": "Analysis of feature adoption patterns in mobile application usage",
-    "metrics": ["mobile_adoption", "session_usage", "platform_comparison", "user_retention"],
-    "dimensions": ["platform", "user_segment", "feature_type"]
+    "description": "Analysis of feature adoption patterns in mobile application usage"
   },
 
   {
     "title": "Cross-Platform Feature Usage",
-    "description": "Comparative analysis of feature adoption across different platforms and devices",
-    "metrics": ["platform_adoption", "cross_device_usage", "sync_frequency", "feature_consistency"],
-    "dimensions": ["platform_type", "device_category", "user_preference"]
+    "description": "Comparative analysis of feature adoption across different platforms and devices"
   },
   {
     "title": "Feature Adoption by User Role",
-    "description": "Analysis of feature usage patterns based on user roles and permissions",
-    "metrics": ["role_based_adoption", "permission_level", "workflow_integration", "productivity_impact"],
-    "dimensions": ["user_role", "department", "feature_access"]
+    "description": "Analysis of feature usage patterns based on user roles and permissions"
   },
   {
     "title": "Geographic Feature Adoption",
-    "description": "Tracking of feature adoption patterns across different geographic regions",
-    "metrics": ["regional_adoption", "cultural_impact", "language_support", "local_relevance"],
-    "dimensions": ["region", "country", "language_preference"]
+    "description": "Tracking of feature adoption patterns across different geographic regions"
   },
   {
     "title": "Feature Bundle Adoption Analysis",
-    "description": "Evaluation of adoption rates for feature bundles and integrated solutions",
-    "metrics": ["bundle_adoption", "feature_correlation", "package_effectiveness", "upgrade_impact"],
-    "dimensions": ["bundle_type", "pricing_tier", "customer_segment"]
+    "description": "Evaluation of adoption rates for feature bundles and integrated solutions"
   },
   {
     "title": "Beta Feature Adoption Metrics",
-    "description": "Tracking of early adoption rates for beta features and experimental capabilities",
-    "metrics": ["beta_adoption", "feedback_rate", "bug_reports", "stability_metrics"],
-    "dimensions": ["feature_maturity", "user_type", "testing_phase"]
+    "description": "Tracking of early adoption rates for beta features and experimental capabilities"
   },
 
   {
     "title": "Enterprise Deal Conversion Analysis",
-    "description": "Detailed tracking of enterprise deal conversions across regions and industries",
-    "metrics": ["conversion_rate", "deal_velocity", "average_deal_size", "negotiation_time"],
-    "dimensions": ["region", "industry", "company_size"]
+    "description": "Detailed tracking of enterprise deal conversions across regions and industries"
   },
   {
     "title": "Technology Sector Deal Performance",
-    "description": "Analysis of deal conversions in technology industry segments",
-    "metrics": ["tech_conversion", "implementation_complexity", "integration_requirements", "competitive_wins"],
-    "dimensions": ["tech_segment", "solution_type", "deal_size"]
+    "description": "Analysis of deal conversions in technology industry segments"
   },
   {
     "title": "Financial Services Deal Conversion",
-    "description": "Tracking of deal conversion metrics in banking and financial services sector",
-    "metrics": ["financial_conversion", "regulatory_compliance", "security_requirements", "decision_time"],
-    "dimensions": ["institution_type", "service_category", "regulatory_region"]
+    "description": "Tracking of deal conversion metrics in banking and financial services sector"
   },
   {
     "title": "Healthcare Sector Deal Analysis",
-    "description": "Comprehensive view of deal conversions in healthcare and medical industries",
-    "metrics": ["healthcare_conversion", "compliance_rate", "implementation_time", "value_realization"],
-    "dimensions": ["facility_type", "specialization", "solution_category"]
+    "description": "Comprehensive view of deal conversions in healthcare and medical industries"
   },
   {
     "title": "Manufacturing Deal Conversion Metrics",
-    "description": "Analysis of deal conversion patterns in manufacturing sector",
-    "metrics": ["manufacturing_conversion", "equipment_type", "integration_scope", "roi_timeline"],
-    "dimensions": ["manufacturing_type", "product_line", "facility_size"]
+    "description": "Analysis of deal conversion patterns in manufacturing sector"
   },
   {
     "title": "Retail Industry Deal Performance",
-    "description": "Tracking of deal conversions in retail and e-commerce segments",
-    "metrics": ["retail_conversion", "store_count", "platform_integration", "seasonal_impact"],
-    "dimensions": ["retail_type", "store_format", "geographic_presence"]
+    "description": "Tracking of deal conversions in retail and e-commerce segments"
   },
   {
     "title": "Education Sector Deal Conversion",
-    "description": "Analysis of deal conversions in educational institutions and services",
-    "metrics": ["education_conversion", "student_impact", "faculty_adoption", "budget_cycle"],
-    "dimensions": ["institution_type", "education_level", "program_focus"]
+    "description": "Analysis of deal conversions in educational institutions and services"
   },
   {
     "title": "Government Sector Deal Analysis",
-    "description": "Tracking of deal conversions in government and public sector",
-    "metrics": ["government_conversion", "procurement_cycle", "compliance_requirements", "budget_allocation"],
-    "dimensions": ["government_level", "department_type", "procurement_category"]
+    "description": "Tracking of deal conversions in government and public sector"
   },
   {
     "title": "SMB Market Deal Conversion",
-    "description": "Analysis of deal conversion patterns in small and medium business segment",
-    "metrics": ["smb_conversion", "decision_speed", "price_sensitivity", "service_requirements"],
-    "dimensions": ["business_size", "industry_focus", "growth_stage"]
+    "description": "Analysis of deal conversion patterns in small and medium business segment"
   },
   {
     "title": "Professional Services Deal Performance",
-    "description": "Tracking of deal conversions in professional services sector",
-    "metrics": ["services_conversion", "project_scope", "resource_allocation", "expertise_match"],
-    "dimensions": ["service_type", "client_industry", "engagement_size"]
+    "description": "Tracking of deal conversions in professional services sector"
   },
 
   {
     "title": "Product Line Revenue Analysis",
-    "description": "Comprehensive analysis of sales performance across different product lines",
-    "metrics": ["revenue", "growth_rate", "market_share", "product_margin"],
-    "dimensions": ["product_line", "customer_segment", "geography"]
+    "description": "Comprehensive analysis of sales performance across different product lines"
   },
   {
     "title": "Regional Sales Performance Metrics",
-    "description": "Detailed breakdown of sales performance by geographic regions",
-    "metrics": ["sales_volume", "revenue_growth", "market_penetration", "sales_efficiency"],
-    "dimensions": ["region", "country", "sales_team"]
+    "description": "Detailed breakdown of sales performance by geographic regions"
   },
   {
     "title": "Customer Segment Performance",
-    "description": "Analysis of sales performance across different customer segments",
-    "metrics": ["segment_revenue", "customer_satisfaction", "retention_rate", "upsell_success"],
-    "dimensions": ["customer_type", "industry", "purchase_history"]
+    "description": "Analysis of sales performance across different customer segments"
   },
   {
     "title": "Sales Channel Effectiveness",
-    "description": "Evaluation of performance across different sales channels",
-    "metrics": ["channel_revenue", "acquisition_cost", "conversion_rate", "customer_lifetime_value"],
-    "dimensions": ["channel_type", "product_category", "customer_segment"]
+    "description": "Evaluation of performance across different sales channels"
   },
   {
     "title": "New Product Launch Performance",
-    "description": "Tracking of sales performance for newly launched products",
-    "metrics": ["launch_revenue", "market_acceptance", "competitive_position", "growth_trajectory"],
-    "dimensions": ["product_category", "market_segment", "launch_phase"]
+    "description": "Tracking of sales performance for newly launched products"
   },
   {
     "title": "Sales Team Performance Analysis",
-    "description": "Detailed analysis of sales team effectiveness and productivity",
-    "metrics": ["team_revenue", "quota_attainment", "pipeline_velocity", "win_rate"],
-    "dimensions": ["team_structure", "territory", "product_focus"]
+    "description": "Detailed analysis of sales team effectiveness and productivity"
   },
   {
     "title": "Account Management Performance",
-    "description": "Analysis of performance in managing and growing key accounts",
-    "metrics": ["account_revenue", "relationship_depth", "wallet_share", "account_health"],
-    "dimensions": ["account_tier", "industry", "engagement_level"]
+    "description": "Analysis of performance in managing and growing key accounts"
   },
   {
     "title": "Seasonal Sales Performance",
-    "description": "Tracking of sales performance patterns across seasons",
-    "metrics": ["seasonal_revenue", "promotion_effectiveness", "inventory_turnover", "margin_impact"],
-    "dimensions": ["season", "product_type", "customer_behavior"]
+    "description": "Tracking of sales performance patterns across seasons"
   },
   {
     "title": "Cross-Sell Performance Analysis",
-    "description": "Evaluation of cross-selling effectiveness across product lines",
-    "metrics": ["cross_sell_revenue", "product_affinity", "bundle_adoption", "customer_value"],
-    "dimensions": ["product_combination", "customer_type", "sales_approach"]
+    "description": "Evaluation of cross-selling effectiveness across product lines"
   },
   {
     "title": "Competitive Win/Loss Performance",
-    "description": "Analysis of sales performance against competitors",
-    "metrics": ["competitive_wins", "market_share", "price_positioning", "feature_comparison"],
-    "dimensions": ["competitor", "product_category", "market_segment"]
+    "description": "Analysis of sales performance against competitors"
   }
 ]
