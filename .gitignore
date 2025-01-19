@@ -11,3 +11,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+
+# db files
+chroma_storage/
+mongodata/
