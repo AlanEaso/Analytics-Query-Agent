@@ -13,20 +13,5 @@ class Prompt:
           ],
           
           "regions": ["north_america", "emea", "latam", "global"],
-          
-          "common_metrics": {
-            "win_loss": ["win_rate", "loss_rate", "conversion_rate"],
-            "cac": ["cac", "roi", "customer_lifetime_value"],
-            "mrr": ["mrr", "churn_rate", "expansion_rate"],
-            "lead_cost": ["cost_per_lead", "conversion_rate", "campaign_roi"],
-            "feature_adoption": ["adoption_rate", "usage_frequency", "user_satisfaction"],
-            "deal_conversion": ["conversion_rate", "deal_velocity", "average_deal_size"],
-            "sales_performance": ["revenue", "growth_rate", "market_share"]
-          },
-
-          "common_dimensions": [
-            "region", "country", "industry", "company_size", "product_line",
-            "customer_segment", "sales_channel", "time_period"
-          ]
         }
         """
