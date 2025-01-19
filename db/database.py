@@ -15,13 +15,15 @@ class MongoDB:
             self.client.close()
             logger.info("Closed MongoDB connection")
 
-    def create_escalation_ticket(self, query, suggested_reports, probing_details):
+    def create_escalation_ticket(self, conversation_id, original_query, suggested_reports, preliminary_analysis, probing_details):
         ticket = {
             "ticket_id": str(uuid.uuid4()),
-            "query": query,
+            "conversation_id": conversation_id,
+            "original_query": original_query,
             "suggested_reports": suggested_reports,
             "probing_details": probing_details,
-            "status": "pending",
+            "preliminary_analysis": preliminary_analysis,
+            "status": "open",
             "created_at": datetime.utcnow(),
             "updated_at": datetime.utcnow()
         }

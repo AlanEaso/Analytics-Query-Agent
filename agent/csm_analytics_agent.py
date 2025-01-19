@@ -1,6 +1,7 @@
 import os
 import sys
 from agent.probing_agent import ProbingAgent
+from agent.summary_agent import SummaryAgent
 from agent.agent_state import AgentState
 from agent.memory import ConversationMemory
 from llm.openai_client import OpenAiClient
@@ -28,7 +29,11 @@ class CSMAnalytsgent:
         else:
             memory.add_content(role='user', content=query)
             self.query = query
-        return self.search_reports(query=query, top_k=top_k)
+        reports =  self.search_reports(query=query, top_k=top_k)
+        for report, _score in reports:
+            memory.add_suggested_report({"title": report.title, "description": report.description})
+
+        return reports
 
     def set_probing_state(self):
         self.agent_status = AgentState.PROBING
@@ -62,8 +67,11 @@ class CSMAnalytsgent:
 
         if not user_satisfied:
             self.agent_status = AgentState.ESCALATING
-            # Save the entire chat history to a postgres db or mongo db here
-            print("One of our team members will reach out to you shortly.")
+            preliminary_analysis, response = SummaryAgent(db=self.db ,memory=memory).summarize()
+            self.db.create_escalation_ticket(memory.conversation_id, self.query, memory.get_suggested_reports(),
+                                            preliminary_analysis=preliminary_analysis, probing_details=memory.get_contents())
+
+            print(response)
 
     def handle_initial_satisfaction(self, user_satisfaction_input: str, memory: ConversationMemory):
         memory.add_content(role='assistant', content="Are you satisfied with the results?")
