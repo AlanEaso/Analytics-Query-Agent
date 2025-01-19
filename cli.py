@@ -12,7 +12,6 @@ def main():
     print("Conversation ID: ", conversation_id)
     print("CSM Analytics Query Agent")
     print("------------------------")
-    print("Enter your analytics report request (or 'quit' to exit):")
     try:
         while True:
             agent = CSMAnalytsgent(db=db)
