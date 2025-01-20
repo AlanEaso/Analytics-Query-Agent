@@ -11,6 +11,10 @@ class OpenAIPrompt:
         self.openai_model = openai_model
         self._messages_for_openai = None
         self._num_prompt_tokens = None
+        if os.getenv('ENV') == 'development':
+            self.encoding = tiktoken.get_encoding("cl100k_base")
+        else:
+            self.encoding = tiktoken.encoding_for_model(self.openai_model)
 
     def messages_for_open_ai(self):
         result = []
@@ -38,11 +42,8 @@ class OpenAIPrompt:
 
 
     def _count_tokens(self, text):
-        if os.getenv('ENV') == 'development':
-            encoding = tiktoken.get_encoding("cl100k_base")
-            return len(encoding.encode(text))
-        encoding = tiktoken.encoding_for_model(self.openai_model)
-        return len(encoding.encode(text))
+
+        return len(self.encoding.encode(text))
     
     def _filter_messages(self, messages, max_tokens):
         output = []
