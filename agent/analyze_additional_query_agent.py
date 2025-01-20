@@ -50,6 +50,65 @@ class AnalyzeAdditionalQueryAgent:
                                     tokens_used=openai_prompt_messages["num_prompt_tokens"], conversation_type="user_probing")
         return json_response['satisfactory'] == '1'
     
+    def analyze_external(self, probe_count: int):
+        openai_prompt = OpenAIPrompt(system_prompt=Prompt().analyze_query_details_external_prompt(query_details=self.probing_agent.query_details,
+                                                                                                  probe_count=probe_count),
+                                     messages=self.memory.get_contents(), openai_model=os.getenv("OPENAI_MODEL"))
+        openai_prompt_messages = openai_prompt.to_openai_format()
+        response = self.openai_client.chat.completions.create(
+            model=os.getenv("OPENAI_MODEL"),
+            messages=openai_prompt_messages["messages"],
+            max_completion_tokens=openai_prompt_messages["max_tokens"],
+            temperature=0.5,
+            response_format={"type": "json_object"} 
+        )
+
+        json_response = json.loads(response.choices[0].message.content)
+        print(json_response)
+        self.db.log_llm_interaction(conversation_id= self.memory.conversation_id, prompt=openai_prompt_messages["messages"],
+                                    response=json_response, model=os.getenv("OPENAI_MODEL"),
+                                    tokens_used=openai_prompt_messages["num_prompt_tokens"], conversation_type="user_probing")
+        return json_response['next_action']
+    
+    def analyze_relevence_external_api(self, user_input: str, question: str, next_action: str, probe_count: int):
+        openai_prompt = OpenAIPrompt(system_prompt=Prompt().analyze_relevance_prompt_external(user_input, question,
+                                                                                              next_action, probe_count),
+                                     messages=[], openai_model=os.getenv("OPENAI_MODEL"))
+        openai_prompt_messages = openai_prompt.to_openai_format()
+        response = self.openai_client.chat.completions.create(
+            model=os.getenv("OPENAI_MODEL"),
+            messages=openai_prompt_messages["messages"],
+            max_completion_tokens=openai_prompt_messages["max_tokens"],
+            temperature=0.5,
+            response_format={"type": "json_object"} 
+        )
+
+        json_response = json.loads(response.choices[0].message.content)
+        self.db.log_llm_interaction(conversation_id= self.memory.conversation_id, prompt=openai_prompt_messages["messages"],
+                                    response=json_response, model=os.getenv("OPENAI_MODEL"),
+                                    tokens_used=openai_prompt_messages["num_prompt_tokens"], conversation_type="user_probing")
+
+        return json_response['relevance'], json_response['relevant_query'], json_response['next_action']
+    
+    def modify_query_external_api(self):
+        openai_prompt = OpenAIPrompt(system_prompt=Prompt().modify_query_external_api_prompt(initial_query=self.probing_agent.csm_agent.query, query_details=self.probing_agent.query_details),
+                                    messages=self.memory.get_contents(), openai_model=os.getenv("OPENAI_MODEL"))
+        openai_prompt_messages = openai_prompt.to_openai_format()
+        response = self.openai_client.chat.completions.create(
+            model=os.getenv("OPENAI_MODEL"),
+            messages=openai_prompt_messages["messages"],
+            max_completion_tokens=openai_prompt_messages["max_tokens"],
+            temperature=0.5,
+            response_format={"type": "json_object"} 
+        )
+
+        json_response = json.loads(response.choices[0].message.content)
+        self.db.log_llm_interaction(conversation_id= self.memory.conversation_id, prompt=openai_prompt_messages["messages"],
+                                    response=json_response, model=os.getenv("OPENAI_MODEL"),
+                                    tokens_used=openai_prompt_messages["num_prompt_tokens"], conversation_type="user_probing")
+
+        return json_response['modified_query']
+    
     def modify_query(self):
         openai_prompt = OpenAIPrompt(system_prompt=self._modify_query_prompt(), messages=self.memory.get_contents(), openai_model=os.getenv("OPENAI_MODEL"))
         openai_prompt_messages = openai_prompt.to_openai_format()

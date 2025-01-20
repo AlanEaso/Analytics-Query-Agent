@@ -22,11 +22,12 @@ class ExternalApiAgent:
         self.openai_client = OpenAiClient().client()
         self.agent_status = AgentState.INITIALIZING
 
-    def process_query(self, query: str, memory: ConversationMemory):
+    def process_query(self, query: str, memory: ConversationMemory, agent_query: bool = False):
         self.agent_status = AgentState.SEARCHING
         self.query = query
+        if agent_query:
+            memory.add_content(role='assistant', content=query)
         report = self._search_external_reports(query=query, memory=memory)
-        print("Report: ", report)
         memory.add_suggested_report({"title": report['title'], "description": report['description']})
         self._print_report(report)
 
@@ -63,6 +64,15 @@ class ExternalApiAgent:
         return json_response
 
 
+    def process_probing(self, memory: ConversationMemory):
+        if not self.agent_status == AgentState.PROBING:
+            return
+
+        probing_agent = ProbingAgent(db=self.db, memory=memory, csm_agent=self)
+        probing_agent.handle_external_probing()
+
+
+
     def _search_external_reports(self, memory, query: str):
         openai_prompt = OpenAIPrompt(system_prompt=Prompt().external_api_prompt(query=query),
                                      messages=memory.get_contents(), openai_model=os.getenv("OPENAI_MODEL"))
@@ -71,7 +81,8 @@ class ExternalApiAgent:
             model=os.getenv("OPENAI_MODEL"),
             messages=openai_prompt_messages["messages"],
             max_completion_tokens=openai_prompt_messages["max_tokens"],
-            n=1
+            temperature=0.5,
+            response_format={"type": "json_object"} 
         )
 
         report = json.loads(response.choices[0].message.content)
