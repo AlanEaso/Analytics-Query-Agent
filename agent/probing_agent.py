@@ -15,7 +15,7 @@ class ProbingAgent:
         self.query_details = []
         self.modified_query = None
         self.db = db
-        self.openai_client = OpenAiClient().client()
+        self.openai_client = OpenAiClient()
 
     def probe_user(self, probe_count: int):
         # Create a probing question based on the user's query and the agent's response
@@ -83,7 +83,7 @@ class ProbingAgent:
         openai_prompt = OpenAIPrompt(system_prompt=Prompt().external_probing_system_prompt(self.csm_agent.query, probe_count),
                                      messages=self.memory.get_contents(), openai_model=os.getenv("OPENAI_MODEL"))
         openai_prompt_messages = openai_prompt.to_openai_format()
-        response = self.openai_client.chat.completions.create(
+        response = self.openai_client.chat_completion(
             model=os.getenv("OPENAI_MODEL"),
             messages=openai_prompt_messages["messages"],
             max_completion_tokens=openai_prompt_messages["max_tokens"],
@@ -143,7 +143,7 @@ class ProbingAgent:
         # Generate a probing question based on the user's query and the agent's response
         openai_prompt = OpenAIPrompt(system_prompt=self._probing_system_prompt(), messages=self.memory.get_contents(), openai_model=os.getenv("OPENAI_MODEL"))
         openai_prompt_messages = openai_prompt.to_openai_format()
-        response = self.openai_client.chat.completions.create(
+        response = self.openai_client.chat_completion(
             model=os.getenv("OPENAI_MODEL"),
             messages=openai_prompt_messages["messages"],
             max_completion_tokens=openai_prompt_messages["max_tokens"],

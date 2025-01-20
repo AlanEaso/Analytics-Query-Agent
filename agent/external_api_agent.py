@@ -19,7 +19,7 @@ class ExternalApiAgent:
         self.db = db
         self.query = None
         self.knowledge_base = Report()
-        self.openai_client = OpenAiClient().client()
+        self.openai_client = OpenAiClient()
         self.agent_status = AgentState.INITIALIZING
 
     def process_query(self, query: str, memory: ConversationMemory, agent_query: bool = False):
@@ -44,7 +44,7 @@ class ExternalApiAgent:
                                      messages=messages, openai_model=os.getenv("OPENAI_MODEL"))
         openai_prompt_messages = openai_prompt.to_openai_format()
 
-        response = self.openai_client.chat.completions.create(
+        response = self.openai_client.chat_completion(
             model=os.getenv("OPENAI_MODEL"),
             messages=openai_prompt_messages["messages"],
             max_completion_tokens=openai_prompt_messages["max_tokens"],
@@ -74,10 +74,11 @@ class ExternalApiAgent:
 
 
     def _search_external_reports(self, memory, query: str):
+        
         openai_prompt = OpenAIPrompt(system_prompt=Prompt().external_api_prompt(query=query),
                                      messages=memory.get_contents(), openai_model=os.getenv("OPENAI_MODEL"))
         openai_prompt_messages = openai_prompt.to_openai_format()
-        response = self.openai_client.chat.completions.create(
+        response = self.openai_client.chat_completion(
             model=os.getenv("OPENAI_MODEL"),
             messages=openai_prompt_messages["messages"],
             max_completion_tokens=openai_prompt_messages["max_tokens"],

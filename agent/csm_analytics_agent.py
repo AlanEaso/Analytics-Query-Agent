@@ -19,7 +19,7 @@ class CSMAnalytsgent:
         self.agent_status = AgentState.INITIALIZING
         self.knowledge_base = Report()
         self.query = None
-        self.openai_client = OpenAiClient().client()
+        self.openai_client = OpenAiClient()
 
     def process_query(self, memory: ConversationMemory, query: str, top_k: int = 3, agent_query: bool = False):
         self.agent_status = AgentState.SEARCHING
@@ -88,7 +88,7 @@ class CSMAnalytsgent:
         openai_prompt = OpenAIPrompt(system_prompt=self._user_satisfaction_system_prompt(), messages=messages, openai_model=os.getenv("OPENAI_MODEL"))
         openai_prompt_messages = openai_prompt.to_openai_format()
 
-        response = self.openai_client.chat.completions.create(
+        response = self.openai_client.chat_completion(
             model=os.getenv("OPENAI_MODEL"),
             messages=openai_prompt_messages["messages"],
             max_completion_tokens=openai_prompt_messages["max_tokens"],

@@ -8,14 +8,14 @@ import json
 class SummaryAgent:
     def __init__(self, db: None, memory: ConversationMemory):
         self.memory = memory
-        self.openai_client = OpenAiClient().client()
+        self.openai_client = OpenAiClient()
         self.db = db
       
 
     def summarize(self):
         openai_prompt = OpenAIPrompt(system_prompt=self._summarize_system_prompt(), messages=self.memory.get_contents(), openai_model=os.getenv("OPENAI_MODEL"))
         openai_prompt_messages = openai_prompt.to_openai_format()
-        response = self.openai_client.chat.completions.create(
+        response = self.openai_client.chat_completion(
             model=os.getenv("OPENAI_MODEL"),
             messages=openai_prompt_messages["messages"],
             max_completion_tokens=openai_prompt_messages["max_tokens"],

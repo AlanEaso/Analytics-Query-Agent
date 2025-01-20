@@ -8,7 +8,7 @@ from agent.prompts import Prompt
 class AnalyzeAdditionalQueryAgent:
     def __init__(self, db: None, memory: ConversationMemory, probing_agent: None):
         self.memory = memory
-        self.openai_client = OpenAiClient().client()
+        self.openai_client = OpenAiClient()
         self.probing_agent = probing_agent
         self.db = db
 
@@ -16,7 +16,7 @@ class AnalyzeAdditionalQueryAgent:
         openai_prompt = OpenAIPrompt(system_prompt=Prompt().analyze_relevance_prompt(user_input, question),
                                      messages=[], openai_model=os.getenv("OPENAI_MODEL"))
         openai_prompt_messages = openai_prompt.to_openai_format()
-        response = self.openai_client.chat.completions.create(
+        response = self.openai_client.chat_completion(
             model=os.getenv("OPENAI_MODEL"),
             messages=openai_prompt_messages["messages"],
             max_completion_tokens=openai_prompt_messages["max_tokens"],
@@ -36,7 +36,7 @@ class AnalyzeAdditionalQueryAgent:
         # Analyze all the user's responses to the probing questions to determine if the agent has enough information to provide a satisfactory answer.
         openai_prompt = OpenAIPrompt(system_prompt=self._analyze_system_prompt(), messages=self.memory.get_contents(), openai_model=os.getenv("OPENAI_MODEL"))
         openai_prompt_messages = openai_prompt.to_openai_format()
-        response = self.openai_client.chat.completions.create(
+        response = self.openai_client.chat_completion(
             model=os.getenv("OPENAI_MODEL"),
             messages=openai_prompt_messages["messages"],
             max_completion_tokens=openai_prompt_messages["max_tokens"],
@@ -55,7 +55,7 @@ class AnalyzeAdditionalQueryAgent:
                                                                                                   probe_count=probe_count),
                                      messages=self.memory.get_contents(), openai_model=os.getenv("OPENAI_MODEL"))
         openai_prompt_messages = openai_prompt.to_openai_format()
-        response = self.openai_client.chat.completions.create(
+        response = self.openai_client.chat_completion(
             model=os.getenv("OPENAI_MODEL"),
             messages=openai_prompt_messages["messages"],
             max_completion_tokens=openai_prompt_messages["max_tokens"],
@@ -75,7 +75,7 @@ class AnalyzeAdditionalQueryAgent:
                                                                                               next_action, probe_count),
                                      messages=[], openai_model=os.getenv("OPENAI_MODEL"))
         openai_prompt_messages = openai_prompt.to_openai_format()
-        response = self.openai_client.chat.completions.create(
+        response = self.openai_client.chat_completion(
             model=os.getenv("OPENAI_MODEL"),
             messages=openai_prompt_messages["messages"],
             max_completion_tokens=openai_prompt_messages["max_tokens"],
@@ -94,7 +94,7 @@ class AnalyzeAdditionalQueryAgent:
         openai_prompt = OpenAIPrompt(system_prompt=Prompt().modify_query_external_api_prompt(initial_query=self.probing_agent.csm_agent.query, query_details=self.probing_agent.query_details),
                                     messages=self.memory.get_contents(), openai_model=os.getenv("OPENAI_MODEL"))
         openai_prompt_messages = openai_prompt.to_openai_format()
-        response = self.openai_client.chat.completions.create(
+        response = self.openai_client.chat_completion(
             model=os.getenv("OPENAI_MODEL"),
             messages=openai_prompt_messages["messages"],
             max_completion_tokens=openai_prompt_messages["max_tokens"],
@@ -112,7 +112,7 @@ class AnalyzeAdditionalQueryAgent:
     def modify_query(self):
         openai_prompt = OpenAIPrompt(system_prompt=self._modify_query_prompt(), messages=self.memory.get_contents(), openai_model=os.getenv("OPENAI_MODEL"))
         openai_prompt_messages = openai_prompt.to_openai_format()
-        response = self.openai_client.chat.completions.create(
+        response = self.openai_client.chat_completion(
             model=os.getenv("OPENAI_MODEL"),
             messages=openai_prompt_messages["messages"],
             max_completion_tokens=openai_prompt_messages["max_tokens"],
