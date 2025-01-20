@@ -1,5 +1,6 @@
 from agent.csm_analytics_agent import CSMAnalytsgent
 from agent.agent_state import AgentState
+from agent.external_api_agent import ExternalApiAgent
 from agent.memory import ConversationMemory
 from db.database import MongoDB
 from loguru import logger
@@ -15,6 +16,7 @@ def main():
     try:
         while True:
             agent = CSMAnalytsgent(db=db)
+            external_agent = ExternalApiAgent(db=db)
             memory = ConversationMemory(conversation_id=conversation_id)
             query = input("\nQuery: ").strip()
             if query in ['quit', 'exit', 'q']:
@@ -23,18 +25,24 @@ def main():
             reports = agent.process_query(memory= memory, query=query, top_k=1)
 
             if len(reports) == 0:
-                print("No reports found. This feature is under development. Please try again.")
-                # Execute external api flow
-                continue
+                print("No reports found. Searching external reports...")
+                external_agent.process_query(query=query, memory=memory)
+                user_satisfaction_input = input("\n Are you satisfied with the results? ").strip()
+                external_agent.handle_initial_satisfaction(memory= memory,user_satisfaction_input=user_satisfaction_input)
+                if external_agent.agent_status == AgentState.COMPLETE:
+                    print("\nGreat! Have a nice day!")
+                    continue
 
-            user_satisfaction_input = input("\n Are you satisfied with the results? ").strip()
-            agent.handle_initial_satisfaction(memory= memory,user_satisfaction_input=user_satisfaction_input)
+                external_agent.process_probing(memory=memory)
+            else:
+                user_satisfaction_input = input("\n Are you satisfied with the results? ").strip()
+                agent.handle_initial_satisfaction(memory= memory,user_satisfaction_input=user_satisfaction_input)
 
-            if agent.agent_status == AgentState.COMPLETE:
-                print("\nGreat! Have a nice day!")
-                continue
+                if agent.agent_status == AgentState.COMPLETE:
+                    print("\nGreat! Have a nice day!")
+                    continue
 
-            agent.process_probing(memory=memory)
+                agent.process_probing(memory=memory)
 
             print("\n Enter any of the following commands or enter a new search query: 'quit', 'exit', 'q' to exit")
     except Exception as e:

@@ -12,7 +12,6 @@ parent_dir = os.path.dirname(os.getcwd())
 sys.path.append(parent_dir)
 
 from knowledge_base.reports import Report
-from enum import Enum
 
 class CSMAnalytsgent:
     def __init__(self, db):
