@@ -4,5 +4,5 @@ pymongo==4.0.1
 python-dotenv==0.19.0
 loguru==0.5.3
 openai
-tiktoken
+tiktoken==0.8.0
 groq
