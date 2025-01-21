@@ -159,7 +159,9 @@ class ProbingAgent:
     
     def _hanlde_satisfactory_response(self):
         self.modified_query = AnalyzeAdditionalQueryAgent(db=self.db, memory=self.memory, probing_agent=self).modify_query()
-        self.csm_agent.process_query(memory=self.memory, query=self.modified_query, top_k=1, agent_query=True)
+        results = self.csm_agent.process_query(memory=self.memory, query=self.modified_query, top_k=1, agent_query=True)
+        if len(results) == 0:
+            return False
 
         user_satisfaction_input = input("\n Are you satisfied with the results? ").strip()
         self.csm_agent.handle_initial_satisfaction(memory= self.memory,user_satisfaction_input=user_satisfaction_input)
