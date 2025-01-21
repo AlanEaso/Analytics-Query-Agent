@@ -89,7 +89,7 @@ class ExternalApiAgent:
         report = json.loads(response.choices[0].message.content)
         self.db.log_llm_interaction(conversation_id= memory.conversation_id, prompt=openai_prompt_messages["messages"],
                                     response=report, model=os.getenv("OPENAI_MODEL"),
-                                    tokens_used=openai_prompt_messages["num_prompt_tokens"], conversation_type="external_api")
+                                    tokens_used=openai_prompt_messages["num_prompt_tokens"], conversation_type="external_api (search reports)")
         return report
     
     def _print_report(self, report):

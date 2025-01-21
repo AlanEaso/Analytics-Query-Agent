@@ -29,7 +29,7 @@ class MongoDB:
         }
         
         self.db.escalation_tickets.insert_one(ticket)
-        # logger.info(f"Created escalation ticket: {ticket['ticket_id']}")
+        logger.info(f"Created escalation ticket: {ticket['ticket_id']}")
         return ticket["ticket_id"]
 
     def update_escalation_status(self, ticket_id, status):
@@ -58,7 +58,7 @@ class MongoDB:
         }
         
         self.db.llm_logs.insert_one(log_entry)
-        # logger.info(f"Logged LLM interaction for {conversation_type}")
+        logger.info(f"Logged LLM interaction for {conversation_type}")
 
     def get_all_escalation_tickets(self):
         return list(self.db.escalation_tickets.find())

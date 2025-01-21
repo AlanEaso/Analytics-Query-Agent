@@ -94,7 +94,7 @@ class ProbingAgent:
         json_response = json.loads(response.choices[0].message.content)
         self.db.log_llm_interaction(conversation_id= self.memory.conversation_id, prompt=openai_prompt_messages["messages"],
                                     response=json_response, model=os.getenv("OPENAI_MODEL"),
-                                    tokens_used=openai_prompt_messages["num_prompt_tokens"], conversation_type="external_api_probing")
+                                    tokens_used=openai_prompt_messages["num_prompt_tokens"], conversation_type="external_api_probing (genreate question)")
         return json_response
         
 
@@ -154,7 +154,7 @@ class ProbingAgent:
         json_response = json.loads(response.choices[0].message.content)
         self.db.log_llm_interaction(conversation_id= self.memory.conversation_id, prompt=openai_prompt_messages["messages"],
                                     response=json_response, model=os.getenv("OPENAI_MODEL"),
-                                    tokens_used=openai_prompt_messages["num_prompt_tokens"], conversation_type="user_probing")
+                                    tokens_used=openai_prompt_messages["num_prompt_tokens"], conversation_type="user_probing (generate question)")
         return json_response
     
     def _hanlde_satisfactory_response(self):

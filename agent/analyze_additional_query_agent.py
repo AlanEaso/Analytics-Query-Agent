@@ -27,7 +27,7 @@ class AnalyzeAdditionalQueryAgent:
         json_response = json.loads(response.choices[0].message.content)
         self.db.log_llm_interaction(conversation_id= self.memory.conversation_id, prompt=openai_prompt_messages["messages"],
                                     response=json_response, model=os.getenv("OPENAI_MODEL"),
-                                    tokens_used=openai_prompt_messages["num_prompt_tokens"], conversation_type="user_probing")
+                                    tokens_used=openai_prompt_messages["num_prompt_tokens"], conversation_type="user_probing (relevance)")
 
         return json_response['relevance'], json_response['relevant_query']
 
@@ -47,7 +47,7 @@ class AnalyzeAdditionalQueryAgent:
         json_response = json.loads(response.choices[0].message.content)
         self.db.log_llm_interaction(conversation_id= self.memory.conversation_id, prompt=openai_prompt_messages["messages"],
                                     response=json_response, model=os.getenv("OPENAI_MODEL"),
-                                    tokens_used=openai_prompt_messages["num_prompt_tokens"], conversation_type="user_probing")
+                                    tokens_used=openai_prompt_messages["num_prompt_tokens"], conversation_type="user_probing (user satisafactory response or not)")
         return json_response['satisfactory'] == '1'
     
     def analyze_external(self, probe_count: int):
@@ -67,7 +67,7 @@ class AnalyzeAdditionalQueryAgent:
         print(json_response)
         self.db.log_llm_interaction(conversation_id= self.memory.conversation_id, prompt=openai_prompt_messages["messages"],
                                     response=json_response, model=os.getenv("OPENAI_MODEL"),
-                                    tokens_used=openai_prompt_messages["num_prompt_tokens"], conversation_type="user_probing")
+                                    tokens_used=openai_prompt_messages["num_prompt_tokens"], conversation_type="user_probing (external api flow)")
         return json_response['next_action']
     
     def analyze_relevence_external_api(self, user_input: str, question: str, next_action: str, probe_count: int):
@@ -86,7 +86,7 @@ class AnalyzeAdditionalQueryAgent:
         json_response = json.loads(response.choices[0].message.content)
         self.db.log_llm_interaction(conversation_id= self.memory.conversation_id, prompt=openai_prompt_messages["messages"],
                                     response=json_response, model=os.getenv("OPENAI_MODEL"),
-                                    tokens_used=openai_prompt_messages["num_prompt_tokens"], conversation_type="user_probing")
+                                    tokens_used=openai_prompt_messages["num_prompt_tokens"], conversation_type="user_probing (relevance) (external api flow)")
 
         return json_response['relevance'], json_response['relevant_query'], json_response['next_action']
     
@@ -105,7 +105,7 @@ class AnalyzeAdditionalQueryAgent:
         json_response = json.loads(response.choices[0].message.content)
         self.db.log_llm_interaction(conversation_id= self.memory.conversation_id, prompt=openai_prompt_messages["messages"],
                                     response=json_response, model=os.getenv("OPENAI_MODEL"),
-                                    tokens_used=openai_prompt_messages["num_prompt_tokens"], conversation_type="user_probing")
+                                    tokens_used=openai_prompt_messages["num_prompt_tokens"], conversation_type="user_probing (modify query details) (external api)")
 
         return json_response['modified_query']
     
@@ -123,7 +123,7 @@ class AnalyzeAdditionalQueryAgent:
         json_response = json.loads(response.choices[0].message.content)
         self.db.log_llm_interaction(conversation_id= self.memory.conversation_id, prompt=openai_prompt_messages["messages"],
                                     response=json_response, model=os.getenv("OPENAI_MODEL"),
-                                    tokens_used=openai_prompt_messages["num_prompt_tokens"], conversation_type="user_probing")
+                                    tokens_used=openai_prompt_messages["num_prompt_tokens"], conversation_type="user_probing (modify query details)")
         return json_response['modified_query']
         
     
