@@ -13,6 +13,7 @@ class ProbingAgent:
         self.csm_agent = csm_agent
         self.memory = memory
         self.query_details = []
+        self.probing_questions = []
         self.modified_query = None
         self.db = db
         self.openai_client = OpenAiClient()
@@ -20,6 +21,8 @@ class ProbingAgent:
     def probe_user(self, probe_count: int):
         # Create a probing question based on the user's query and the agent's response
         probing_question = self._generate_probing_question()
+        self.probing_questions.append(probing_question['question'])
+
         print(probing_question['question'])
         self.memory.add_content(role='assistant', content=probing_question["question"])
 
@@ -43,6 +46,7 @@ class ProbingAgent:
         next_action = 'continue'
         while probe_count <= max_probe_count and next_action == 'continue':
             response  = self._generate_external_probing_question(probe_count=probe_count)
+            self.probing_questions.append(response["question"])
             next_action = response['next_action']
             print(response["question"])
             self.memory.add_content(role='assistant', content=response["question"])
@@ -80,7 +84,9 @@ class ProbingAgent:
         return response
 
     def _generate_external_probing_question(self, probe_count: int):
-        openai_prompt = OpenAIPrompt(system_prompt=Prompt().external_probing_system_prompt(self.csm_agent.query, probe_count),
+        openai_prompt = OpenAIPrompt(system_prompt=Prompt().external_probing_system_prompt(self.csm_agent.query,
+                                                                                           probe_count,
+                                                                                           self.probing_questions),
                                      messages=self.memory.get_contents(), openai_model=os.getenv("OPENAI_MODEL"))
         openai_prompt_messages = openai_prompt.to_openai_format()
         response = self.openai_client.chat_completion(
@@ -190,7 +196,7 @@ class ProbingAgent:
     
         You should adapt questioning strategy based on the initial query by the user.
         You SHOULD NOT repeat the questions or SHOULD NOT ask questions again to which user has already provided answers. Analyze the user's responses
-        thoroughly.
+        thoroughly. Already asked question seperated by comma are: "{(', ').join(self.probing_questions)}" Make sure you don't ask the same questions.
 
         Make sure you stick to the context provided below which is the conversation between you (the agent) and the user. Always
         stay contextually relevant. Respond in a json format in the following way: {{"question": "The question generated be you" }}.

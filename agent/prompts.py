@@ -65,7 +65,7 @@ class Prompt:
               Do not deviate from the response format.
               """
   
-  def external_probing_system_prompt(self, query, probe_count):
+  def external_probing_system_prompt(self, query, probe_count, probing_questions: []):
      return f"""
         You are an Analytics Query Assistant. Based on the knowledge you have, you provided and answer
         to the user's query. The user is not satisified with results you provided.
@@ -91,7 +91,7 @@ class Prompt:
     
         You should adapt questioning strategy based on the initial query by the user.
         You SHOULD NOT repeat the questions or SHOULD NOT ask questions again to which user has already provided answers. Analyze the user's responses
-        thoroughly.
+        thoroughly. Already asked question seperated by comma are: "{(', ').join(probing_questions)}" Make sure you don't ask the same questions.
 
         The possible number of probing questions you can ask is 5. You have asked {probe_count} probing questions till now. If the probe count is
         greater than or equal to 3, return the response in the json format: {{"next_action": "evaluate"}}.
