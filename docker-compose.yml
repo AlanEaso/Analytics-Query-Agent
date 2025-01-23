@@ -32,6 +32,16 @@ services:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
 
+  slack_notifier:
+    build: 
+      context: ./slack_notifier
+    networks:
+      - csm_network
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+
 networks:
   csm_network:
     driver: bridge
