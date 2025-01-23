@@ -7,6 +7,7 @@ from agent.memory import ConversationMemory
 from llm.openai_client import OpenAiClient
 from llm.openai_prompt import OpenAIPrompt
 import json
+import requests
 
 parent_dir = os.path.dirname(os.getcwd())
 sys.path.append(parent_dir)
@@ -73,7 +74,16 @@ class CSMAnalytsgent:
             preliminary_analysis, response = SummaryAgent(db=self.db ,memory=memory).summarize()
             self.db.create_escalation_ticket(memory.conversation_id, self.query, memory.get_suggested_reports(),
                                             preliminary_analysis=preliminary_analysis, probing_details=memory.get_contents())
-
+            
+            message_for_team = f"Escalation ticket created for conversation {memory.conversation_id}. Summary: of the conversation: {preliminary_analysis}. Please check the conversation and close the ticket."
+            
+            try:
+                requests.post("http://slack_notifier:3000/notify",
+                            json={"message": message_for_team},
+                            headers={"x-api-key": os.getenv("EXTERNAL_SLACK_NOTIFIER_API_KEY")},
+                            timeout=5)
+            except requests.exceptions.RequestException as e:
+                print(f"Error sending notification: {e}")
             print(response)
 
     def handle_initial_satisfaction(self, user_satisfaction_input: str, memory: ConversationMemory):

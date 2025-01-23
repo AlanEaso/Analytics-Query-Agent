@@ -7,6 +7,7 @@ from llm.openai_prompt import OpenAIPrompt
 from agent.summary_agent import SummaryAgent
 import os
 import json
+import requests
 
 class ProbingAgent:
     def __init__(self, db, memory: ConversationMemory, csm_agent: None):
@@ -80,6 +81,16 @@ class ProbingAgent:
                                             self.memory.get_suggested_reports(),
                                             preliminary_analysis=preliminary_analysis,
                                             probing_details=self.memory.get_contents())
+
+        message_for_team = f"Escalation ticket created for conversation {self.memory.conversation_id}. Summary: of the conversation: {preliminary_analysis}. Please check the conversation and close the ticket."
+            
+        try:
+            requests.post("http://slack_notifier:3000/notify",
+                        json={"message": message_for_team},
+                        headers={"x-api-key": os.getenv("EXTERNAL_SLACK_NOTIFIER_API_KEY")},
+                        timeout=5)
+        except requests.exceptions.RequestException as e:
+            print(f"Error sending notification: {e}")
         
         return response
 
